@@ -1,0 +1,13 @@
+# created by virtualenv automatically
+bin
+lib
+include
+pyvenv.cfg
+.DS_Store
+.vscode
+.mypy_cache
+test_example
+__pycache__
+build
+dist
+*.egg_info
