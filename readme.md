@@ -71,7 +71,7 @@ the [`PythonRSA`](https://github.com/sybrenstuvel/python-rsa/) library.
 
 ## Usage
 
-```
+```python
 from siwa import IdentityToken, KeyCache
 
 cache = KeyCache()  # The cache is optional but will reduce the time taken
