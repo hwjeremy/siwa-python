@@ -57,7 +57,7 @@ the user email address)
 Install Sign in with Apple via PyPi:
 
 ```
-pip install signin-with-apple
+pip install siwa
 ```
 
 ## Dependencies
