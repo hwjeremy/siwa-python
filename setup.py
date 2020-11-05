@@ -43,7 +43,8 @@ setup(
     python_requires='>=3.6',
     install_requires=[
         'PyJWT',
-        'rsa'
+        'rsa',
+        'cryptography'
     ],
     project_urls={
         'Github Repository': 'https://github.com/hwjeremy/siwa-python',
