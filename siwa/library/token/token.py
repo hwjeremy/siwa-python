@@ -39,7 +39,7 @@ class IdentityToken:
     def is_validly_signed(
         self,
         key_cache: Optional[KeyCache] = None,
-        ignore_expiry: bool = True
+        ignore_expiry: bool = False
     ) -> bool:
 
         apple_public_key = self._header.retrieve_public_key(key_cache)
