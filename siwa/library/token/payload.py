@@ -47,6 +47,7 @@ class Payload:
     email = property(lambda s: s._email)
     email_is_private = property(lambda s: s._is_private_email)
     real_person = property(lambda s: s._real_person)
+    audience = property(lambda s: s._audience)
 
     @classmethod
     def decode(cls: Type[T], data: Dict) -> T:
