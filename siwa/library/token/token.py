@@ -36,7 +36,11 @@ class IdentityToken:
 
     payload = property(lambda s: s._payload)
 
-    def is_validly_signed(self, key_cache: Optional[KeyCache] = None) -> bool:
+    def is_validly_signed(
+        self,
+        key_cache: Optional[KeyCache] = None,
+        ignore_expiry: bool = True
+    ) -> bool:
 
         apple_public_key = self._header.retrieve_public_key(key_cache)
         rsa_key = apple_public_key.rsa_public_key
@@ -48,7 +52,10 @@ class IdentityToken:
                 key=pks,
                 verify=True,
                 algorithms=['RS256'],
-                audience='blinkybeach.Makara'
+                audience='blinkybeach.Makara',
+                options={
+                    'verify_exp': not ignore_expiry
+                }
             )
         except PyJWTError:
             return False
