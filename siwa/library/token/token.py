@@ -39,7 +39,8 @@ class IdentityToken:
     def is_validly_signed(
         self,
         key_cache: Optional[KeyCache] = None,
-        ignore_expiry: bool = False
+        ignore_expiry: bool = False,
+        audience: str = ''
     ) -> bool:
 
         apple_public_key = self._header.retrieve_public_key(key_cache)
@@ -52,7 +53,7 @@ class IdentityToken:
                 key=pks,
                 verify=True,
                 algorithms=['RS256'],
-                audience='blinkybeach.Makara',
+                audience=audience,
                 options={
                     'verify_exp': not ignore_expiry
                 }
