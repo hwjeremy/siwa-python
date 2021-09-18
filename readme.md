@@ -124,7 +124,7 @@ and then check validity with the `.is_validly_signed` instance method.
 ) -> bool
 ```
 
-Call `.is_validly_signed to check if a token is valid. Optionally pass an
+Call `.is_validly_signed` to check if a token is valid. Optionally pass an
 instance of `KeyCache` to improve performance for repeated checks.
 
 Optionally specify `ignore_expiry=true` if you do not wish for an expired
@@ -162,12 +162,12 @@ A store of data provided by Apple, describing the user.
 #### Properties
 
 ```python
-.unique_apple_user_id: str
-.expires_utc_seconds_since_epoch: int
-.issued_utc_seconds_since_epoch: int
-.email: str
-.email_is_private: Optional[bool]
-.real_person: Optional[RealPerson]
+unique_apple_user_id: str
+expires_utc_seconds_since_epoch: int
+issued_utc_seconds_since_epoch: int
+email: str
+email_is_private: Optional[bool]
+real_person: Optional[RealPerson]
 ```
 
 #### Example Usage
@@ -191,7 +191,7 @@ An enumeration of possible values provided by Apple.
 ```
 UNSUPPORTED
 UNKNOWN
-LIVELY_REAL
+LIKELY_REAL
 ```
 
 ## Testing
