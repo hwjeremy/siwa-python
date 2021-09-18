@@ -83,12 +83,116 @@ token_is_valid = token.is_validly_signed(key_cache=cache)
 
 # if `token_is_valid` is True, you can confidently proceed with the credential
 
-# Useful properties:
+# Useful properties (see type reference for more):
 print(token.payload.email)
 print(token.payload.unique_apple_user_id)
-print(token.issued_utc_seconds_since_epoch)
 ```
 
+## Public Type Reference
+
+### KeyCache
+
+A store for Apple's public key. If you supply a `KeyCache` instance to
+`IdentityToken.is_validly_signed`, you can reduce the time it takes to
+validate the key, as `IdentityToken` will retrieve the public key from the
+`KeyCache` rather than making an HTTP request to Apple's servers.
+
+#### Example Usage
+
+```python
+key_cache = KeyCache()
+```
+
+### IdentityToken
+
+Represents a SIWA identity token. Initialise with `.parse(:Union[bytes, str])`
+and then check validity with the `.is_validly_signed` instance method.
+
+#### Methods
+
+##### Class
+
+`.parse(data: Union[bytes, str]) -> IdentityToken`
+
+##### Instance
+
+```python
+.is_validly_signed(
+    audience: str,
+    key_cache: Optional[KeyCache] = None,
+    ignore_expiry: bool = False
+) -> bool
+```
+
+Call `.is_validly_signed to check if a token is valid. Optionally pass an
+instance of `KeyCache` to improve performance for repeated checks.
+
+Optionally specify `ignore_expiry=true` if you do not wish for an expired
+token to be considered invalid (useful for testing purposes).
+
+#### Properties
+
+`.payload: Payload`
+
+#### Example Usage
+
+```python
+from siwa import IdentityToken
+import json
+
+# Suppose you have a file named token.json containing a SIWA token:
+with open('token.json', 'r') as rfile:
+    json_string = json.loads(rfile.read())
+
+token = IdentityToken.parse(data=json_string)
+
+token_is_valid = token.is_validly_signed(
+    audience='blinkybeach.Makara'
+)
+
+print('The token is {v}'.format(
+    v=('valid' if token_is_valid else 'not valid')
+))
+```
+
+### Payload
+
+A store of data provided by Apple, describing the user.
+
+#### Properties
+
+```python
+.unique_apple_user_id: str
+.expires_utc_seconds_since_epoch: int
+.issued_utc_seconds_since_epoch: int
+.email: str
+.email_is_private: Optional[bool]
+.real_person: Optional[RealPerson]
+```
+
+#### Example Usage
+
+```python
+# Using `token` from the above `IdentityToken` example
+payload = token.payload
+
+print('The user\'s email is {e} and unique ID {i}'.format(
+    e=payload.email,
+    i=payload.unique_apple_user_id
+))
+```
+
+### RealPerson
+
+An enumeration of possible values provided by Apple.
+
+#### Cases
+
+```
+UNSUPPORTED
+UNKNOWN
+LIVELY_REAL
+```
 
 ## Testing
 
@@ -96,11 +200,14 @@ To test the library, create a file that contains a valid SIWA identity token.
 For example, one that you have obtained from `AuthenticationServices` in
 Xcode.
 
-Run `test.py`, passing the relative path to that file under the
-`--example-jwt-file` parameter:
+Run `test.py`, passing command line arguments:
+
+`--example-jwt-file`: the relative path to your identity token file
+`--audience`: the audience for the token
 
 ```
-python3 test.py --example-jwt-file example/jwt/file
+$ python3 test.py --example-jwt-file example/jwt/file --audience \
+blinkybeach.Makara
 ```
 
 ## Contact
