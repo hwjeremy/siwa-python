@@ -17,14 +17,22 @@ class VerifyTokenSignature(Test):
         cache = KeyCache()
 
         token = IdentityToken.parse(self.example_token)
-        valid = token.is_validly_signed(cache, ignore_expiry=True)
+        valid = token.is_validly_signed(
+            audience=self.test_audience,
+            key_cache=cache,
+            ignore_expiry=True
+        )
         assert valid is True
 
         # Mess up the signature slightly
         bad_raw_token = self.example_token[:-3] + 'j' + self.example_token[-3:]
 
         bad_token = IdentityToken.parse(bad_raw_token)
-        valid = bad_token.is_validly_signed(cache, ignore_expiry=True)
+        valid = bad_token.is_validly_signed(
+            audience=self.test_audience,
+            key_cache=cache,
+            ignore_expiry=True
+        )
         assert valid is False
 
         return Success()

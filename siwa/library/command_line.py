@@ -23,11 +23,12 @@ class CommandLine:
             value: Optional[str] = None
             argument = arguments[index]
             if argument[0] == '-':
-                if (index + 1) < len(arguments):
+                next = arguments[index + 1]
+                if (index + 1) < len(arguments) and next[0] != '-':
                     value = arguments[index + 1]
+                    index += 1
                 else:
                     value = None
-                index += 1
             data[argument] = value
             index += 1
             continue

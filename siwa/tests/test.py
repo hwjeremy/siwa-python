@@ -34,6 +34,8 @@ class Test:
         with open(example_filepath) as efile:
             self._example_token = efile.read()
 
+        self._test_audience = cl.require('--audience')
+
         return
 
     name = property(lambda s: s._name)
@@ -43,6 +45,7 @@ class Test:
     time_elapsed = property(lambda s: s._time_elapsed())
 
     example_token = property(lambda s: s._example_token)
+    test_audience = property(lambda s: s._test_audience)
 
     def run(self) -> None:
         """Run the test"""

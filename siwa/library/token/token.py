@@ -38,9 +38,13 @@ class IdentityToken:
 
     def is_validly_signed(
         self,
+        audience: str,
         key_cache: Optional[KeyCache] = None,
         ignore_expiry: bool = False
     ) -> bool:
+
+        if not isinstance(audience, str):
+            raise TypeError('audience must be of type `str`')
 
         apple_public_key = self._header.retrieve_public_key(key_cache)
         rsa_key = apple_public_key.rsa_public_key
@@ -52,7 +56,7 @@ class IdentityToken:
                 key=pks,
                 verify=True,
                 algorithms=['RS256'],
-                audience='blinkybeach.Makara',
+                audience=audience,
                 options={
                     'verify_exp': not ignore_expiry
                 }
