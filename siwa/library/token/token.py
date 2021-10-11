@@ -54,14 +54,13 @@ class IdentityToken:
             result = jwt.decode(
                 jwt=self._raw_token,
                 key=pks,
-                verify=True,
                 algorithms=['RS256'],
                 audience=audience,
                 options={
                     'verify_exp': not ignore_expiry
                 }
             )
-        except PyJWTError:
+        except PyJWTError as error:
             return False
 
         return result is not None

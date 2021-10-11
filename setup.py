@@ -42,7 +42,7 @@ setup(
     long_description_content_type="text/markdown",
     python_requires='>=3.6',
     install_requires=[
-        'PyJWT',
+        'PyJWT>=2.2.0',
         'rsa',
         'cryptography'
     ],
