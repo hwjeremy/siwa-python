@@ -54,7 +54,6 @@ class IdentityToken:
             result = jwt.decode(
                 jwt=self._raw_token,
                 key=pks,
-                verify=True,
                 algorithms=['RS256'],
                 audience=audience,
                 options={
