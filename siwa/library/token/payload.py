@@ -57,10 +57,10 @@ class Payload:
             audience=data['aud'],
             issued_at=data['iat'],
             expiration_time=data['exp'],
-            nonce=data.get('nonce', default=None),
+            nonce=data.get('nonce', None),
             nonce_supported=data['nonce_supported'],
-            email=data.get('email', default=None),
-            email_verified=data.get('email_verified', default=False),
-            is_private_email=data.get('is_private_email', default=None),
+            email=data.get('email', None),
+            email_verified=data.get('email_verified', False),
+            is_private_email=data.get('is_private_email', None),
             real_person=RealPerson(data['real_user_status']) if 'real_user_status' in data else None
         )
